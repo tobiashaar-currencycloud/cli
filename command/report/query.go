@@ -18,6 +18,8 @@ func makeQuery(url string, body []byte, bodyMimeType string) ([]byte, error) {
 		Timeout: time.Second * 60,
 	}
 
+	log.Printf("Request body size: %d\n", len(body))
+
 	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(body))
 	req.Header.Set("Content-Type", bodyMimeType)
 	res, err := httpClient.Do(req)
