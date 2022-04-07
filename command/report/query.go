@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -30,7 +31,10 @@ func makeQuery(url string, body []byte, bodyMimeType string) ([]byte, error) {
 		return resBody, err
 	}
 
+	log.Printf("Headers: %v\nBody: %v\n", res.Header, string(resBody))
+
 	if res.StatusCode >= http.StatusInternalServerError || res.StatusCode != 200 {
+
 		return resBody, errors.New("Error making the query with HTTP status code: " + strconv.Itoa(res.StatusCode))
 	}
 
