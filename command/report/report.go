@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"strings"
 	"time"
@@ -200,6 +201,8 @@ func (opts *ReportOptions) Run() int {
 
 	query.Variables.Input = queryInput
 
+	printQuery(query)
+
 	// Marshal request body
 	queryBodyBytes, err := json.Marshal(query)
 	if err != nil {
@@ -257,4 +260,12 @@ func (opts *ReportOptions) Run() int {
 	fmt.Printf("Key       %s \n", artifactKey)
 
 	return 0
+}
+
+func printQuery(query ReportQuery) {
+	query.Variables.Input.AccessToken = "filtered"
+	bytes, err := json.Marshal(query)
+	if err == nil {
+		log.Printf("Request body: %s\n", bytes)
+	}
 }
